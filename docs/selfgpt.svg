@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="36 19 375 147" width="375" height="147" role="img" aria-label="A Gemma chat template rendered up to a new user turn, where the model writes">
+  <style>
+    text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 13px; fill: #111; }
+    .tok { fill: #6e6e6e; }
+    .role { fill: #555; }
+    .label { font-size: 11px; letter-spacing: 1.2px; fill: #2563eb; }
+    .box { fill: #e2e2e2; }
+    .accent { fill: #2563eb; }
+    .line { stroke: #2563eb; }
+    @media (prefers-color-scheme: dark) {
+      text { fill: #e6edf3; }
+      .tok { fill: #8b949e; }
+      .role { fill: #9da5ae; }
+      .label { fill: #58a6ff; }
+      .box { fill: #262c36; }
+      .accent { fill: #58a6ff; }
+      .line { stroke: #58a6ff; }
+    }
+  </style>
+
+  <g class="box">
+    <rect x="36" y="19" width="125" height="18"/>
+    <rect x="301.4" y="45" width="109.4" height="18"/>
+    <rect x="36" y="71" width="125" height="18"/>
+    <rect x="285.8" y="97" width="109.4" height="18"/>
+    <rect x="36" y="123" width="125" height="18"/>
+  </g>
+
+  <text class="tok" x="40" y="32" textLength="117" lengthAdjust="spacing">&lt;start_of_turn&gt;</text>
+  <text class="role" x="165" y="32" textLength="31.2" lengthAdjust="spacing">user</text>
+
+  <text x="40" y="58" textLength="257.4" lengthAdjust="spacing">Hey whats the capital of france??</text>
+  <text class="tok" x="305.4" y="58" textLength="101.4" lengthAdjust="spacing">&lt;end_of_turn&gt;</text>
+
+  <text class="tok" x="40" y="84" textLength="117" lengthAdjust="spacing">&lt;start_of_turn&gt;</text>
+  <text class="role" x="165" y="84" textLength="39" lengthAdjust="spacing">model</text>
+
+  <text x="40" y="110" textLength="241.8" lengthAdjust="spacing">The capital of France is Paris.</text>
+  <text class="tok" x="289.8" y="110" textLength="101.4" lengthAdjust="spacing">&lt;end_of_turn&gt;</text>
+
+  <text class="tok" x="40" y="136" textLength="117" lengthAdjust="spacing">&lt;start_of_turn&gt;</text>
+  <text class="role" x="165" y="136" textLength="31.2" lengthAdjust="spacing">user</text>
+
+  <rect class="accent" x="40" y="149" width="8" height="17">
+    <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;.5;.5;1" dur="1.1s" repeatCount="indefinite"/>
+  </rect>
+  <g class="accent">
+    <path class="line" d="M60 157.5H70"/>
+    <path d="M56 157.5l5-3v6z"/>
+  </g>
+  <text class="label" x="78" y="161.5">THE MODEL WILL WRITE THE USER MESSAGE</text>
+</svg>
