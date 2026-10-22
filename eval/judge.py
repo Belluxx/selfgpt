@@ -126,7 +126,7 @@ class Judge:
     def _api(self, system, question, **request):
         r = self.client.chat.completions.create(
             model=self.name, messages=[{"role": "system", "content": system}, {"role": "user", "content": question}],
-            temperature=0, reasoning_effort="none", extra_body=self.extra, **request)
+            reasoning_effort="none", extra_body=self.extra, **request)
         if getattr(r.usage.completion_tokens_details, "reasoning_tokens", 0):
             sys.exit(f"{self.name} reasoned before answering, so its first token isn't the answer")
         return r
@@ -134,7 +134,7 @@ class Judge:
     def reply(self, system, question):
         if self.provider == "openai-oauth":
             return self._retry(chatgpt.respond, self.name, system, question, self.reasoning)
-        return self._retry(self._api, system, question, max_tokens=5).choices[0].message.content or ""
+        return self._retry(self._api, system, question, max_tokens=5, temperature=0).choices[0].message.content or ""
 
     def p(self, question, pos, neg, system):
         """P(the answer starts with a word in pos rather than neg), from the first token's top logprobs.
@@ -146,11 +146,13 @@ class Judge:
                 print(f"none of {pos | neg} in the reply {reply!r}, scored 0.5", file=sys.stderr, flush=True)
                 return 0.5
             return float(answer in pos)
-        r = self._retry(self._api, system, question, max_tokens=1, logprobs=True, top_logprobs=20)
-        top = r.choices[0].logprobs.content[0].top_logprobs
-        p = lambda words: sum(math.exp(t.logprob) for t in top if t.token.strip() in words)
+        # Some providers, like DeepSeek's, scale the logprobs by the temperature: at 0 they are only 0 and -9999
+        r = self._retry(self._api, system, question, max_tokens=1, logprobs=True, top_logprobs=20, temperature=1)
+        # Some providers, like Parasail, list a token twice
+        top = {t.token: t.logprob for t in r.choices[0].logprobs.content[0].top_logprobs}
+        p = lambda words: sum(math.exp(lp) for t, lp in top.items() if t.strip() in words)
         if not p(pos) + p(neg):
-            print(f"none of {pos | neg} in the top logprobs {[t.token for t in top]}, scored 0.5", file=sys.stderr, flush=True)
+            print(f"none of {pos | neg} in the top logprobs {list(top)}, scored 0.5", file=sys.stderr, flush=True)
             return 0.5
         return p(pos) / (p(pos) + p(neg))
 
